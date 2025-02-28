@@ -31,12 +31,22 @@ public class HoloProjectorBlockEntity extends BlockEntity {
     private final HoloProjectorPeripheral peripheral;
     private final LazyOptional peripheralLazyOptional;
 
-
-    public void addText(String text, float x, float y, float z, float rotation, float scale, int color)
+    public int addText(String text, float x, float y, float z, float rotation, float scale, int color)
     {
         this.elementList.add(new HoloTextElement(x,y,z,rotation,scale,color,text));
         setChanged();
         level.sendBlockUpdated(getBlockPos(),getBlockState(),getBlockState(),3);
+        return this.elementList.size() - 1;
+    }
+
+    public boolean replaceText(int index, String text, float x, float y, float z, float rotation, float scale, int color){
+        if(index >= 0 && index < elementList.size()) {
+            elementList.set(index, new HoloTextElement(x,y,z,rotation,scale,color,text));
+            setChanged();
+            level.sendBlockUpdated(getBlockPos(),getBlockState(),getBlockState(),3);
+            return true;
+        }
+        return false;
     }
 
     public void clearElements()

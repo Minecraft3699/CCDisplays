@@ -20,9 +20,17 @@ public class HoloProjectorPeripheral implements IPeripheral {
     }
 
     @LuaFunction
-    public void addText(String text, double x, double y, double z, double rotation, double scale, int color)
+    public final int addText(String text, double x, double y, double z, double rotation, double scale, int color)
     {
-        this.blockEntity.addText(text, (float) x, (float) y, (float) z, (float) rotation, (float) scale, color);
+        return this.blockEntity.addText(text, (float) x, (float) y, (float) z, (float) rotation, (float) scale, color);
+    }
+
+    @LuaFunction
+    public final boolean replaceText(int index, String text, double x, double y, double z, double rotation, double scale, int color) {
+        if(index >= 0) {
+            return this.blockEntity.replaceText(index, text, (float) x, (float) y, (float) z, (float) rotation, (float) scale, color);
+        }
+        return false;
     }
 
     @LuaFunction
